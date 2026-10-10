@@ -1,0 +1,100 @@
+# Operating rhythm cell: cycles (sprints, weekly, planning, review), their committed tasks, goal links and reviews,
+# and the operating KPIs with their measurements per cycle. task_id and goal_id are plain ids of other cells.
+cell: operating
+title: Operating rhythm
+port: 3623
+resources:
+  cycle:
+    table: cycles
+    plural: cycles
+    legacy_table: operating_cycles
+    graph: [name, slug, status, cycle_type]
+    filters: [status, cycle_type, slug]
+    order: start_date
+    fields:
+      slug: {type: text, required: true, max_length: 200, unique: true}
+      name: {type: text, required: true, max_length: 500}
+      cycle_type: {type: enum, values: [sprint, weekly, planning, review], default: sprint}
+      status: {type: enum, values: [planned, active, in_review, closed, cancelled], default: planned}
+      start_date: {type: date, required: true}
+      end_date: {type: date, required: true}
+      focus: {type: text, required: true}
+      capacity_minutes: {type: int, min: 0}
+      owner: {type: text, default: Owner, max_length: 200}
+      decision: {type: enum, values: [continue, adjust, pause, close]}
+      source: {type: text, default: ai-operating-cadence, max_length: 200}
+      notes: {type: text}
+  cycle-task:
+    table: cycle_tasks
+    plural: cycle-tasks
+    legacy_table: operating_cycle_tasks
+    filters: [cycle_id, task_id, commitment_type]
+    unique: [[cycle_id, task_id]]
+    fields:
+      cycle_id: {type: ref, to: cycle, required: true}
+      task_id: {type: bigint, required: true}
+      commitment_type: {type: enum, values: [committed, stretch, carried_over, dropped], default: committed}
+      estimate_minutes: {type: int, min: 0}
+      evidence_required: {type: bool, default: true}
+      notes: {type: text}
+  cycle-goal-link:
+    table: cycle_goal_links
+    plural: cycle-goal-links
+    legacy_table: operating_cycle_goal_links
+    filters: [cycle_id, goal_id, link_type]
+    unique: [[cycle_id, goal_id]]
+    fields:
+      cycle_id: {type: ref, to: cycle, required: true}
+      goal_id: {type: bigint, required: true}
+      link_type: {type: enum, values: [objective, supporting, guardrail], default: objective}
+  cycle-review:
+    table: cycle_reviews
+    plural: cycle-reviews
+    legacy_table: operating_cycle_reviews
+    filters: [cycle_id, decision]
+    fields:
+      cycle_id: {type: ref, to: cycle, required: true, unique: true}
+      reviewer: {type: text, default: Owner, max_length: 200}
+      summary: {type: text, required: true}
+      delivered_summary: {type: text}
+      carryover_summary: {type: text}
+      blocker_summary: {type: text}
+      learning_summary: {type: text}
+      decision: {type: enum, required: true, values: [continue, adjust, pause, close]}
+      evidence_ref: {type: text}
+      reviewed_at: {type: timestamp}
+  kpi:
+    table: kpis
+    plural: kpis
+    legacy_table: operating_kpi_definitions
+    graph: [name, slug, status, metric_group]
+    filters: [status, metric_group, source_kind, slug]
+    fields:
+      slug: {type: text, required: true, max_length: 200, unique: true}
+      name: {type: text, required: true, max_length: 500}
+      description: {type: text, required: true}
+      unit: {type: text, default: count, max_length: 60}
+      direction: {type: enum, values: [increase, decrease, maintain], default: increase}
+      target_value: {type: real, required: true}
+      source_kind: {type: enum, required: true, values: [cycle_tasks, ai_telemetry, review, manual]}
+      privacy_class: {type: enum, values: [public, internal, private], default: internal}
+      metric_group: {type: text, default: operating, max_length: 100}
+      measurement_cadence: {type: text, default: weekly, max_length: 60}
+      status: {type: enum, values: [active, paused, retired], default: active}
+      notes: {type: text}
+  kpi-measurement:
+    table: kpi_measurements
+    plural: kpi-measurements
+    legacy_table: operating_kpi_measurements
+    filters: [kpi_id, cycle_id, status]
+    unique: [[kpi_id, cycle_id]]
+    fields:
+      kpi_id: {type: ref, to: kpi, required: true}
+      cycle_id: {type: ref, to: cycle, required: true}
+      value: {type: real, required: true}
+      target_value: {type: real, required: true}
+      status: {type: enum, values: [no_data, on_track, at_risk, off_track, achieved], default: no_data}
+      measured_at: {type: timestamp}
+      source_ref: {type: text}
+      evidence_ref: {type: text}
+      metadata_json: {type: text}
