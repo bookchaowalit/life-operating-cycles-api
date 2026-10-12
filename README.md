@@ -8,9 +8,9 @@ HTTP with the caller's token.
 
 | | |
 |---|---|
-| API | Railway project `solo-operating`, service `operating-api` (Serverless) |
+| API | Railway project `operating-cycles`, service `operating-api` (Serverless) |
 | Publisher | service `operating-publisher` (Railway cron, `*/15 * * * *`) |
-| Data | Neon project `solo-operating`, database `operating` |
+| Data | Neon project `operating-cycles`, database `operating` |
 | Registry | solo-empire `repository-catalog/registries/online-systems.yaml` (`operating`) |
 
 ## API
