@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "operating": {
+      "command": ".venv/bin/operating-mcp",
+      "args": []
+    }
+  }
+}
