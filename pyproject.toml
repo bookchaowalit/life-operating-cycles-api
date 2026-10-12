@@ -1,7 +1,7 @@
 [project]
 name = "solo-operating"
 version = "0.1.0"
-description = "Operating rhythm cell: its own API and database (made with solo-cell-kit)"
+description = "Operating rhythm cell: its own API and database"
 requires-python = ">=3.12"
 dependencies = [
     "psycopg[binary]>=3.2,<4",
