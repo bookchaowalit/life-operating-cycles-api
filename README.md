@@ -1,5 +1,4 @@
-# operating-cycles
-
+# life-operating-cycles-api
 The Operating rhythm cell: its own API (Railway, serverless) and its own Neon
 database, described by `cell.yaml` and served by the code in `src/cellkit/`, which
 this repository owns. It
@@ -8,9 +7,9 @@ HTTP with the caller's token.
 
 | | |
 |---|---|
-| API | Railway project `operating-cycles`, service `operating-api` (Serverless) |
+| API | Railway project `life-operating-cycles-api`, service `operating-api` (Serverless) |
 | Publisher | service `operating-publisher` (Railway cron, `*/15 * * * *`) |
-| Data | Neon project `operating-cycles`, database `operating` |
+| Data | Neon project `life-operating-cycles-api`, database `operating` |
 | Registry | solo-empire `repository-catalog/registries/online-systems.yaml` (`operating`) |
 
 ## API

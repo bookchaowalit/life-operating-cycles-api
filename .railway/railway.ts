@@ -1,6 +1,6 @@
 import { defineRailway, project, service } from "railway/iac";
 
-// operating-cycles: the Operating rhythm cell. Variables stay unmanaged (secrets live in Railway only).
+// life-operating-cycles-api: the Operating rhythm cell. Variables stay unmanaged (secrets live in Railway only).
 // operating-api sleeps when idle (Railway Serverless) and wakes on the next request.
 // operating-publisher is a cron sweep of the outbox that exits after each run.
 // Every service runs in Singapore next to Neon (aws-ap-southeast-1) and empire-platform; the IaC does not
@@ -16,7 +16,7 @@ export default defineRailway(() => {
     deploy: { cronSchedule: "*/15 * * * *", restartPolicyType: "NEVER" },
   });
 
-  return project("operating-cycles", {
+  return project("life-operating-cycles-api", {
     variables: { managed: false },
     resources: [api, publisher],
   });
