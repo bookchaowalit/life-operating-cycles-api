@@ -23,7 +23,7 @@ owner: Product owner (Book Dev)
 ## 3. สิ่งที่ทำได้จริงตอนนี้
 
 - API `/v1/cycles`, `/v1/cycle-tasks`, `/v1/cycle-goal-links`, `/v1/cycle-reviews`, `/v1/kpis`, `/v1/kpi-measurements` (list, stats, get, create, patch, delete) สร้างจาก `cell.yaml` ด้วย solo-cell-kit
-- Publisher `operating-publisher` (cron `*/15 * * * *`) ตาม README
+- Publisher `operating-publisher` (cron `5 * * * *`) ตาม README
 - `task_id` และ `goal_id` อ้าง cell อื่นเป็น id ธรรมดา (ไม่มี foreign key ข้าม cell)
 
 ## 4. หลักฐานสถานะ
